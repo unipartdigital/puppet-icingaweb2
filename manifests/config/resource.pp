@@ -33,6 +33,26 @@
 # [*db_charset*]
 #   The character set to use for the database connection. Only valid if `type` is `db`.
 #
+# [*db_use_ssl*]
+#   Use an SSL encrypted connection. Only valid if `db_type` is `mysql`.
+#
+# [*db_ssl_cert*]
+#   The file path to the SSL certificate. Only valid if `db_type` is `mysql`.
+#
+# [*db_ssl_key*]
+#   The file path to the SSL key. Only valid if `db_type` is `mysql`.
+#
+# [*db_ssl_ca*]
+#   The file path to the SSL certificate authority. Only valid if `db_type` is `mysql`.
+#
+# [*db_ssl_capath*]
+#   The file path to the directory that contains the trusted SSL CA certificates, which are stored in PEM format.
+#   Only valid if `db_type` is `mysql`.
+#
+# [*db_ssl_cipher*]
+#   A list of one or more permissible ciphers to use for SSL encryption, in a format understood by OpenSSL.
+#   For example: `DHE-RSA-AES256-SHA:AES128-SHA`. Only valid if `db_type` is `mysql`.
+#
 # [*ldap_root_dn*]
 #   Root object of the tree, e.g. 'ou=people,dc=icinga,dc=com'. Only valid if `type` is `ldap`.
 #
@@ -70,6 +90,12 @@ define icingaweb2::config::resource(
   Optional[String]                            $db_username     = undef,
   Optional[String]                            $db_password     = undef,
   Optional[String]                            $db_charset      = undef,
+  Optional[Boolean]                           $db_use_ssl      = undef,
+  Optional[Stdlib::Absolutepath]              $db_ssl_cert     = undef,
+  Optional[Stdlib::Absolutepath]              $db_ssl_key      = undef,
+  Optional[Stdlib::Absolutepath]              $db_ssl_ca       = undef,
+  Optional[Stdlib::Absolutepath]              $db_ssl_capath   = undef,
+  Optional[String]                            $db_ssl_cipher   = undef,
   Optional[String]                            $ldap_root_dn    = undef,
   Optional[String]                            $ldap_bind_dn    = undef,
   Optional[String]                            $ldap_bind_pw    = undef,
@@ -80,15 +106,40 @@ define icingaweb2::config::resource(
 
   case $type {
     'db': {
-      $settings = {
-        'type'     => $type,
-        'db'       => $db_type,
-        'host'     => $host,
-        'port'     => $port,
-        'dbname'   => $db_name,
-        'username' => $db_username,
-        'password' => $db_password,
-        'charset'  => $db_charset,
+      case $db_type {
+        'mysql': {
+          $settings = {
+            'type'       => $type,
+            'db'         => $db_type,
+            'host'       => $host,
+            'port'       => $port,
+            'dbname'     => $db_name,
+            'username'   => $db_username,
+            'password'   => $db_password,
+            'charset'    => $db_charset,
+            'use_ssl'    => $db_use_ssl,
+            'ssl_cert'   => $db_ssl_cert,
+            'ssl_key'    => $db_ssl_key,
+            'ssl_ca'     => $db_ssl_ca,
+            'ssl_capath' => $db_ssl_capath,
+            'ssl_cipher' => $db_ssl_cipher
+          }
+        }
+        'pgsql': {
+          $settings = {
+            'type'       => $type,
+            'db'         => $db_type,
+            'host'       => $host,
+            'port'       => $port,
+            'dbname'     => $db_name,
+            'username'   => $db_username,
+            'password'   => $db_password,
+            'charset'    => $db_charset
+          }
+        }
+        default: {
+          fail('The db_type you provided is not supported.')
+        }
       }
     }
     'ldap': {

@@ -993,6 +993,26 @@ The password to use when connecting to the server. Only valid if `type` is `db`.
 ##### `db_charset`
 The character set to use for the database connection. Only valid if `type` is `db`.
 
+##### `db_use_ssl`
+Use an SSL encrypted connection. Only valid if `db_type` is `mysql`.
+
+##### `db_ssl_cert`
+The file path to the SSL certificate. Only valid if `db_type` is `mysql`.
+
+##### `db_ssl_key`
+The file path to the SSL key. Only valid if `db_type` is `mysql`.
+
+##### `db_ssl_ca`
+The file path to the SSL certificate authority. Only valid if `db_type` is `mysql`.
+
+##### `db_ssl_capath`
+The file path to the directory that contains the trusted SSL CA certificates, which are stored in PEM format.
+Only valid if `db_type` is `mysql`.
+
+##### `db_ssl_cipher`
+A list of one or more permissible ciphers to use for SSL encryption, in a format understood by OpenSSL.
+For example: `DHE-RSA-AES256-SHA:AES128-SHA`. Only valid if `db_type` is `mysql`.
+
 ##### `ldap_root_dn`
 Root object of the tree, e.g. `ou=people,dc=icinga,dc=com`. Only valid if `type` is `ldap`.
 

@@ -32,6 +32,26 @@
 # [*ido_db_charset*]
 #   The character set to use for the database connection.
 #
+# [*ido_db_use_ssl*]
+#   Use an SSL encrypted connection. Only valid if `ido_type` is `mysql`.
+#
+# [*ido_db_ssl_cert*]
+#   The file path to the SSL certificate. Only valid if `ido_type` is `mysql`.
+#
+# [*ido_db_ssl_key*]
+#   The file path to the SSL key. Only valid if `ido_type` is `mysql`.
+#
+# [*ido_db_ssl_ca*]
+#   The file path to the SSL certificate authority. Only valid if `ido_type` is `mysql`.
+#
+# [*ido_db_ssl_capath*]
+#   The file path to the directory that contains the trusted SSL CA certificates, which are stored in PEM format.
+#   Only valid if `ido_type` is `mysql`.
+#
+# [*ido_db_ssl_cipher*]
+#   A list of one or more permissible ciphers to use for SSL encryption, in a format understood by OpenSSL.
+#   For example: `DHE-RSA-AES256-SHA:AES128-SHA`. Only valid if `ido_type` is `mysql`.
+#
 # [*commandtransports*]
 #   A hash of command transports.
 #
@@ -45,6 +65,12 @@ class icingaweb2::module::monitoring(
   Optional[String]               $ido_db_username      = undef,
   Optional[String]               $ido_db_password      = undef,
   Optional[String]               $ido_db_charset       = undef,
+  Optional[Boolean]              $ido_db_use_ssl       = undef,
+  Optional[Stdlib::Absolutepath] $ido_db_ssl_cert      = undef,
+  Optional[Stdlib::Absolutepath] $ido_db_ssl_key       = undef,
+  Optional[Stdlib::Absolutepath] $ido_db_ssl_ca        = undef,
+  Optional[Stdlib::Absolutepath] $ido_db_ssl_capath    = undef,
+  Optional[String]               $ido_db_ssl_cipher    = undef,
   Hash                           $commandtransports    = undef,
 ){
 
@@ -63,14 +89,20 @@ class icingaweb2::module::monitoring(
   }
 
   icingaweb2::config::resource { 'icingaweb2-module-monitoring':
-    type        => 'db',
-    db_type     => $ido_type,
-    host        => $ido_host,
-    port        => $ido_port,
-    db_name     => $ido_db_name,
-    db_username => $ido_db_username,
-    db_password => $ido_db_password,
-    db_charset  => $ido_db_charset,
+    type          => 'db',
+    db_type       => $ido_type,
+    host          => $ido_host,
+    port          => $ido_port,
+    db_name       => $ido_db_name,
+    db_username   => $ido_db_username,
+    db_password   => $ido_db_password,
+    db_charset    => $ido_db_charset,
+    db_use_ssl    => $ido_db_use_ssl,
+    db_ssl_cert   => $ido_db_ssl_cert,
+    db_ssl_key    => $ido_db_ssl_key,
+    db_ssl_ca     => $ido_db_ssl_ca,
+    db_ssl_capath => $ido_db_ssl_capath,
+    db_ssl_cipher => $ido_db_ssl_cipher
   }
 
   $backend_settings = {

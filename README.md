@@ -699,6 +699,26 @@ Password for IDO DB connection.
 ##### `ido_db_charset`
 The character set to use for the database connection.
 
+##### `ido_db_use_ssl`
+Use an SSL encrypted connection. Only valid if `ido_type` is `mysql`.
+
+##### `ido_db_ssl_cert`
+The file path to the SSL certificate. Only valid if `ido_type` is `mysql`.
+
+##### `ido_db_ssl_key`
+The file path to the SSL key. Only valid if `ido_type` is `mysql`.
+
+##### `ido_db_ssl_ca`
+The file path to the SSL certificate authority. Only valid if `ido_type` is `mysql`.
+
+##### `ido_db_ssl_capath`
+The file path to the directory that contains the trusted SSL CA certificates, which are stored in PEM format.
+Only valid if `ido_type` is `mysql`.
+
+##### `ido_db_ssl_cipher`
+A list of one or more permissible ciphers to use for SSL encryption, in a format understood by OpenSSL.
+For example: `DHE-RSA-AES256-SHA:AES128-SHA`. Only valid if `ido_type` is `mysql`.
+
 ##### `commandtransports`
 A hash of command transports.
 

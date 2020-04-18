@@ -109,10 +109,13 @@ class icingaweb2 (
   Optional[String]                          $cookie_path         = undef,
 ) inherits ::icingaweb2::params {
 
-  anchor { '::icingaweb2::begin': }
-  -> class { '::icingaweb2::repo': }
-  -> class { '::icingaweb2::install': }
-  -> class { '::icingaweb2::config': }
-  -> anchor { '::icingaweb2::end': }
+  if $manage_repo {
+    require ::icinga::repos
+  }
 
+  class { '::icingaweb2::install': }
+  -> class { '::icingaweb2::config': }
+
+  contain ::icingaweb2::install
+  contain ::icingaweb2::config
 }

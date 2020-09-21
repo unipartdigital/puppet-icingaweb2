@@ -21,6 +21,15 @@ class icingaweb2::repo {
               gpgkey   => 'http://packages.icinga.com/icinga.key',
             }
           }
+          'fedora': {
+            yumrepo { 'icinga-stable-release':
+              baseurl  => "http://packages.icinga.com/fedora/${::facts['os']['release']['major']}/release/",
+              descr    => 'ICINGA (stable release for fedora)',
+              enabled  => 1,
+              gpgcheck => 1,
+              gpgkey   => 'http://packages.icinga.com/icinga.key',
+            }
+          }
           default: {
             fail('Your plattform is not supported to manage a repository.')
           }
